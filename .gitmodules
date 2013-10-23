@@ -1,0 +1,6 @@
+[submodule "Xom"]
+	path = Xom
+	url = git@github.com:KallDrexx/Xom.git
+[submodule "FrbUi"]
+	path = FrbUi
+	url = git@github.com:KallDrexx/FrbUi.git
