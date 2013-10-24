@@ -28,32 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainEditorControl1 = new FrbUiEditor.Controls.MainEditorControl();
+            this.ControlsHost = new System.Windows.Forms.Integration.ElementHost();
             this.SuspendLayout();
             // 
-            // mainEditorControl1
+            // ControlsHost
             // 
-            this.mainEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainEditorControl1.Location = new System.Drawing.Point(0, 0);
-            this.mainEditorControl1.Name = "mainEditorControl1";
-            this.mainEditorControl1.Size = new System.Drawing.Size(679, 397);
-            this.mainEditorControl1.TabIndex = 0;
+            this.ControlsHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ControlsHost.Location = new System.Drawing.Point(0, 0);
+            this.ControlsHost.Name = "ControlsHost";
+            this.ControlsHost.Size = new System.Drawing.Size(679, 397);
+            this.ControlsHost.TabIndex = 0;
+            this.ControlsHost.Child = null;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(679, 397);
-            this.Controls.Add(this.mainEditorControl1);
+            this.Controls.Add(this.ControlsHost);
             this.Name = "Form1";
             this.Text = "FrbUi Editor";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Controls.MainEditorControl mainEditorControl1;
+        private System.Windows.Forms.Integration.ElementHost ControlsHost;
     }
 }
 

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xom.Tests", "Xom\Xom.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbUi", "FrbUi\FrbUi.csproj", "{7235175C-356E-4756-9D68-5889ABC79A24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbUiEditor.Controls", "FrbUiEditor.Controls\FrbUiEditor.Controls.csproj", "{3328E896-0374-4306-BCAE-871D4BC2E05C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbUiEditor.Core", "FrbUiEditor.Core\FrbUiEditor.Core.csproj", "{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,12 +45,12 @@ Global
 		{7235175C-356E-4756-9D68-5889ABC79A24}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7235175C-356E-4756-9D68-5889ABC79A24}.Release|x86.ActiveCfg = Release|x86
 		{7235175C-356E-4756-9D68-5889ABC79A24}.Release|x86.Build.0 = Release|x86
-		{3328E896-0374-4306-BCAE-871D4BC2E05C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3328E896-0374-4306-BCAE-871D4BC2E05C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3328E896-0374-4306-BCAE-871D4BC2E05C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3328E896-0374-4306-BCAE-871D4BC2E05C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3328E896-0374-4306-BCAE-871D4BC2E05C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3328E896-0374-4306-BCAE-871D4BC2E05C}.Release|x86.ActiveCfg = Release|Any CPU
+		{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C5DC705-3CAC-4B99-915E-5C2B9D157F48}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
