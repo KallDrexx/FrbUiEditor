@@ -112,6 +112,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FrbUi\FrbUi.csproj">
+      <Project>{7235175c-356e-4756-9d68-5889abc79a24}</Project>
+      <Name>FrbUi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Xom\Xom.Core\Xom.Core.csproj">
       <Project>{b334963f-071a-44b4-b05b-91d0ada5f2fe}</Project>
       <Name>Xom.Core</Name>
