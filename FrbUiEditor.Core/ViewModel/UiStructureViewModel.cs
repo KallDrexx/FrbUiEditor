@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FrbUi.Xml.Models;
+using FrbUiEditor.Core.Messages;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using Xom.Core;
 
 namespace FrbUiEditor.Core.ViewModel
@@ -17,13 +19,7 @@ namespace FrbUiEditor.Core.ViewModel
 
         public UiStructureViewModel()
         {
-            _menuItems = new ObservableCollection<MenuItem>(new []
-            {
-                new MenuItem {Text = "Item 1"},
-                new MenuItem {Text = "Item 2"},
-                new MenuItem {Text = "Item 3"}
-            });
-
+            _menuItems = new ObservableCollection<MenuItem>();
             var reader = new XomReader();
             var nodes = reader.GenerateNodes(typeof (AssetCollection));
             var rootNode = nodes.First(x => x.IsRoot);
@@ -32,6 +28,8 @@ namespace FrbUiEditor.Core.ViewModel
             {
                 new UiNode(rootNode, "root")
             };
+
+            Messenger.Default.Register<UiNodeSelectedMessage>(this, HandleNodeSelectedMessage);
         }
 
         public IEnumerable<MenuItem> MenuItems { get { return _menuItems; } } 
@@ -40,6 +38,27 @@ namespace FrbUiEditor.Core.ViewModel
         {
             get { return _rootNode; }
             set { Set(() => RootNode, ref _rootNode, value); }
+        }
+
+        private void HandleNodeSelectedMessage(UiNodeSelectedMessage message)
+        {
+            _menuItems.Clear();
+
+            if (message.SelectedNode == null)
+                return;
+
+            var node = message.SelectedNode;
+            var childMenuItems = node.XomNode
+                                     .Children
+                                     .SelectMany(x => x.AvailableNodes)
+                                     .Select(x => new MenuItem
+                                     {
+                                         Text = x.Key
+                                     })
+                                     .ToArray();
+
+            foreach (var childMenuItem in childMenuItems)
+                _menuItems.Add(childMenuItem);
         }
     }
 }

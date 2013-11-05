@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FrbUiEditor.Core.Messages;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using Xom.Core.Models;
 
 namespace FrbUiEditor.Core.ViewModel
@@ -31,6 +33,7 @@ namespace FrbUiEditor.Core.ViewModel
         private UiNode() {}
 
         public IEnumerable<UiNode> Children { get { return _children; } }
+        public XomNode XomNode { get { return _xomNode; } }
 
         public string Name
         {
@@ -41,7 +44,11 @@ namespace FrbUiEditor.Core.ViewModel
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { Set(() => IsSelected, ref _isSelected, value); }
+            set
+            {
+                Set(() => IsSelected, ref _isSelected, value);
+                Messenger.Default.Send(new UiNodeSelectedMessage {SelectedNode = this});
+            }
         }
 
         public bool IsExpanded
