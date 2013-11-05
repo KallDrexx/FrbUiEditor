@@ -16,6 +16,7 @@ namespace FrbUiEditor.Core.ViewModel
         private bool _isSelected;
         private bool _isExpanded;
         private bool _isLoaded;
+        private bool _menuOpened;
 
         public UiNode(XomNode node, string name)
         {

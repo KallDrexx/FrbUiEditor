@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:FrbUiEditor.Core.ViewModel"
+             xmlns:converters="clr-namespace:FrbUiEditor.Core.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         <vm:ViewModelLocator x:Key="Locator" />
+        <converters:BoolToVisibilityConverter x:Key="TrueToVisibleConverter"/>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -37,7 +39,9 @@
             </TreeView.ItemTemplate>
             
             <TreeView.ContextMenu>
-                <ContextMenu ItemsSource="{Binding MenuItems}">
+                <ContextMenu ItemsSource="{Binding MenuItems}" 
+                             IsOpen="{Binding IsMenuOpened, Mode=TwoWay}"
+                             Visibility="{Binding HasMenuItems, Converter={StaticResource TrueToVisibleConverter}}">
                     <ContextMenu.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type vm:MenuItem}">
                             <TextBlock Text="{Binding Text}"/>

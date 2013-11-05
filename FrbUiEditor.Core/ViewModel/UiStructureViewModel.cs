@@ -16,6 +16,7 @@ namespace FrbUiEditor.Core.ViewModel
     {
         private readonly ObservableCollection<MenuItem> _menuItems;
         private List<UiNode> _rootNode;
+        private bool _menuOpened;
 
         public UiStructureViewModel()
         {
@@ -32,12 +33,19 @@ namespace FrbUiEditor.Core.ViewModel
             Messenger.Default.Register<UiNodeSelectedMessage>(this, HandleNodeSelectedMessage);
         }
 
-        public IEnumerable<MenuItem> MenuItems { get { return _menuItems; } } 
+        public IEnumerable<MenuItem> MenuItems { get { return _menuItems; } }
+        public bool HasMenuItems { get { return _menuItems.Any(); } }
 
         public List<UiNode> RootNode
         {
             get { return _rootNode; }
             set { Set(() => RootNode, ref _rootNode, value); }
+        }
+
+        public bool IsMenuOpened
+        {
+            get { return _menuOpened; }
+            set { Set(() => IsMenuOpened, ref _menuOpened, value); }
         }
 
         private void HandleNodeSelectedMessage(UiNodeSelectedMessage message)
@@ -59,6 +67,9 @@ namespace FrbUiEditor.Core.ViewModel
 
             foreach (var childMenuItem in childMenuItems)
                 _menuItems.Add(childMenuItem);
+
+            IsMenuOpened = false;
+            RaisePropertyChanged(() => HasMenuItems);
         }
     }
 }
