@@ -29,11 +29,22 @@
                     </Style.Triggers>
                 </Style>
             </TreeView.ItemContainerStyle>
+            
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+            
+            <TreeView.ContextMenu>
+                <ContextMenu ItemsSource="{Binding MenuItems}">
+                    <ContextMenu.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type vm:MenuItem}">
+                            <TextBlock Text="{Binding Text}"/>
+                        </HierarchicalDataTemplate>
+                    </ContextMenu.Resources>
+                </ContextMenu>
+            </TreeView.ContextMenu>
         </TreeView>  
     </Grid>
 </UserControl>
