@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using FrbUiEditor.Core.Messages;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
@@ -15,23 +16,13 @@ namespace FrbUiEditor.Core.ViewModel
         private string _name;
         private bool _isSelected;
         private bool _isExpanded;
-        private bool _isLoaded;
-        private bool _menuOpened;
 
         public UiNode(XomNode node, string name)
         {
             _children = new ObservableCollection<UiNode>();
             _xomNode = node;
             Name = name;
-
-            if (node.Children.Any())
-                _children.Add(new UiNode());
         }
-
-        /// <summary>
-        /// Constructor meant for creating dummy children
-        /// </summary>
-        private UiNode() {}
 
         public IEnumerable<UiNode> Children { get { return _children; } }
         public XomNode XomNode { get { return _xomNode; } }
@@ -55,26 +46,13 @@ namespace FrbUiEditor.Core.ViewModel
         public bool IsExpanded
         {
             get { return _isExpanded; }
-            set
-            {
-                Set(() => IsExpanded, ref _isExpanded, value);
-                if (_isExpanded && !_isLoaded)
-                    LoadChildren();
-            }
+            set { Set(() => IsExpanded, ref _isExpanded, value); }
         }
 
-        private void LoadChildren()
+        public void CreateChild(XomNode xomNode, string name)
         {
-            _children.Clear();
-
-            var childNodes = _xomNode.Children
-                                     .SelectMany(x => x.AvailableNodes)
-                                     .OrderBy(x => x.Key);
-
-            foreach (var keyValuePair in childNodes)
-                _children.Add(new UiNode(keyValuePair.Value, keyValuePair.Key));
-
-            _isLoaded = true;
+            var newNode = new UiNode(xomNode, name);
+            _children.Add(newNode);
         }
     }
 }

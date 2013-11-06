@@ -16,7 +16,7 @@
     <UserControl.DataContext>
         <Binding Source="{StaticResource Locator}" Path="UiStructureViewModel" />
     </UserControl.DataContext>
-    
+
     <Grid>
         <TreeView ItemsSource="{Binding RootNode}">
             <TreeView.ItemContainerStyle>
@@ -31,24 +31,25 @@
                     </Style.Triggers>
                 </Style>
             </TreeView.ItemContainerStyle>
-            
+
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
-            
+
             <TreeView.ContextMenu>
                 <ContextMenu ItemsSource="{Binding MenuItems}" 
                              IsOpen="{Binding IsMenuOpened, Mode=TwoWay}"
                              Visibility="{Binding HasMenuItems, Converter={StaticResource TrueToVisibleConverter}}">
-                    <ContextMenu.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type vm:MenuItem}">
-                            <TextBlock Text="{Binding Text}"/>
-                        </HierarchicalDataTemplate>
-                    </ContextMenu.Resources>
+                    <ContextMenu.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding Text}" Command="{Binding Command}" />
+                        </DataTemplate>
+                    </ContextMenu.ItemTemplate>
+
                 </ContextMenu>
             </TreeView.ContextMenu>
-        </TreeView>  
+        </TreeView>
     </Grid>
 </UserControl>

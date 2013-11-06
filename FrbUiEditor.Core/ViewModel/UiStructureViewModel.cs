@@ -7,33 +7,35 @@ using System.Threading.Tasks;
 using FrbUi.Xml.Models;
 using FrbUiEditor.Core.Messages;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Xom.Core;
+using Xom.Core.Models;
 
 namespace FrbUiEditor.Core.ViewModel
 {
     public class UiStructureViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<MenuItem> _menuItems;
+        private readonly ObservableCollection<UiStructureMenuItem> _menuItems;
         private List<UiNode> _rootNode;
         private bool _menuOpened;
 
         public UiStructureViewModel()
         {
-            _menuItems = new ObservableCollection<MenuItem>();
+            _menuItems = new ObservableCollection<UiStructureMenuItem>();
             var reader = new XomReader();
-            var nodes = reader.GenerateNodes(typeof (AssetCollection));
+            var nodes = reader.GenerateNodes(typeof(AssetCollection));
             var rootNode = nodes.First(x => x.IsRoot);
 
             RootNode = new List<UiNode>
             {
-                new UiNode(rootNode, "root")
+                new UiNode(rootNode, "UI Package")
             };
 
             Messenger.Default.Register<UiNodeSelectedMessage>(this, HandleNodeSelectedMessage);
         }
 
-        public IEnumerable<MenuItem> MenuItems { get { return _menuItems; } }
+        public IEnumerable<UiStructureMenuItem> MenuItems { get { return _menuItems; } }
         public bool HasMenuItems { get { return _menuItems.Any(); } }
 
         public List<UiNode> RootNode
@@ -59,10 +61,7 @@ namespace FrbUiEditor.Core.ViewModel
             var childMenuItems = node.XomNode
                                      .Children
                                      .SelectMany(x => x.AvailableNodes)
-                                     .Select(x => new MenuItem
-                                     {
-                                         Text = x.Key
-                                     })
+                                     .Select(x => CreateMenuItem(x, node))
                                      .ToArray();
 
             foreach (var childMenuItem in childMenuItems)
@@ -70,6 +69,18 @@ namespace FrbUiEditor.Core.ViewModel
 
             IsMenuOpened = false;
             RaisePropertyChanged(() => HasMenuItems);
+        }
+
+        private UiStructureMenuItem CreateMenuItem(KeyValuePair<string, XomNode> xomNodePair, UiNode uiNode)
+        {
+            var command = new RelayCommand(() => uiNode.CreateChild(xomNodePair.Value, xomNodePair.Key));
+
+            return new UiStructureMenuItem
+            {
+                Text = xomNodePair.Key,
+                XomNode = xomNodePair.Value,
+                UiNode = uiNode
+            };
         }
     }
 }

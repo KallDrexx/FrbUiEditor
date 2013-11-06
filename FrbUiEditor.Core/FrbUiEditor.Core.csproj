@@ -85,7 +85,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModel\MenuItem.cs" />
+    <Compile Include="ViewModel\UiStructureMenuItem.cs" />
     <Compile Include="ViewModel\UiNode.cs" />
     <Compile Include="ViewModel\UiStructureViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
