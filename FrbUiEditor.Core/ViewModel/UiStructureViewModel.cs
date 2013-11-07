@@ -73,8 +73,6 @@ namespace FrbUiEditor.Core.ViewModel
 
         private UiStructureMenuItem CreateMenuItem(KeyValuePair<string, XomNode> xomNodePair, UiNode uiNode)
         {
-            var command = new RelayCommand(() => uiNode.CreateChild(xomNodePair.Value, xomNodePair.Key));
-
             return new UiStructureMenuItem
             {
                 Text = xomNodePair.Key,
