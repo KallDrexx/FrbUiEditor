@@ -23,10 +23,7 @@ namespace FrbUiEditor.Core.ViewModel
 
         private void HandleUiNodeSelectedMessage(UiNodeSelectedMessage message)
         {
-            var attributes = message.SelectedNode.XomNode.Attributes;
-            var type = XomAttributeTypeGenerator.GenerateType(attributes, "SelectedType");
-            var instance = Activator.CreateInstance(type);
-            NodeData = instance;
+            NodeData = message.SelectedNode.AttributeData;
         }
     }
 }

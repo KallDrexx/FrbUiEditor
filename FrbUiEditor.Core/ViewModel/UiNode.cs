@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using FrbUiEditor.Core.Messages;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using Xom.Core;
 using Xom.Core.Models;
 
 namespace FrbUiEditor.Core.ViewModel
@@ -16,12 +18,18 @@ namespace FrbUiEditor.Core.ViewModel
         private string _name;
         private bool _isSelected;
         private bool _isExpanded;
+        private object _attributeData;
 
         public UiNode(XomNode node, string name)
         {
             _children = new ObservableCollection<UiNode>();
             _xomNode = node;
             Name = name;
+
+            var attributes = _xomNode.Attributes;
+            var type = XomAttributeTypeGenerator.GenerateType(attributes, "SelectedType");
+            var instance = Activator.CreateInstance(type);
+            AttributeData = instance;
         }
 
         public IEnumerable<UiNode> Children { get { return _children; } }
@@ -47,6 +55,12 @@ namespace FrbUiEditor.Core.ViewModel
         {
             get { return _isExpanded; }
             set { Set(() => IsExpanded, ref _isExpanded, value); }
+        }
+
+        public object AttributeData
+        {
+            get { return _attributeData; }
+            private set { Set(() => AttributeData, ref _attributeData, value); }
         }
 
         public void CreateChild(XomNode xomNode, string name)
