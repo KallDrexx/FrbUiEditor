@@ -22,11 +22,12 @@ namespace FrbUiEditor.Core.ViewModel
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
     /// </summary>
-    public class ViewModelLocator
+    class ViewModelLocator
     {
         private IContainer container;
 
         public UiStructureViewModel UiStructureViewModel { get { return container.Resolve<UiStructureViewModel>(); } }
+        public NodeDetailsViewModel NodeDetailsViewModel { get { return container.Resolve<NodeDetailsViewModel>(); } }
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -35,6 +36,7 @@ namespace FrbUiEditor.Core.ViewModel
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<UiStructureViewModel>();
+            builder.RegisterType<NodeDetailsViewModel>();
 
             container = builder.Build();
         }

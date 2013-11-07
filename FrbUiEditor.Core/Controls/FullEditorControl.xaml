@@ -8,6 +8,12 @@
              d:DesignHeight="300" d:DesignWidth="300">
     
     <Grid>
-        <controls:UiStructureControl></controls:UiStructureControl>  
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <controls:UiStructureControl Grid.Column="0" />  
+        <GridSplitter Grid.Column="0" Width="5" />
+        <controls:NodeDetailsControl Grid.Column="1" />
     </Grid>
 </UserControl>
