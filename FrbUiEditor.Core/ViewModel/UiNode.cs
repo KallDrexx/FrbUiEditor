@@ -27,7 +27,7 @@ namespace FrbUiEditor.Core.ViewModel
             Name = name;
 
             var attributes = _xomNode.Attributes;
-            var type = XomAttributeTypeGenerator.GenerateType(attributes, "SelectedType");
+            var type = XomAttributeTypeGenerator.GenerateType(attributes);
             var instance = Activator.CreateInstance(type);
             AttributeData = instance;
         }

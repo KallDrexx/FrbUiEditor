@@ -3,6 +3,7 @@ using FrbUiEditor.Core.Messages;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using Xom.Core;
+using Xom.Core.Models;
 
 namespace FrbUiEditor.Core.ViewModel
 {
