@@ -17,8 +17,9 @@ namespace FrbUiEditor.Core.ViewModel
     public class UiStructureViewModel : ViewModelBase
     {
         private readonly ObservableCollection<UiStructureMenuItem> _menuItems;
-        private List<UiNode> _rootNode;
+        private ObservableCollection<UiNode> _rootNode;
         private bool _menuOpened;
+        private UiNode _selectedNode;
 
         public UiStructureViewModel()
         {
@@ -27,18 +28,16 @@ namespace FrbUiEditor.Core.ViewModel
             var nodes = reader.GenerateNodes(typeof(AssetCollection));
             var rootNode = nodes.First(x => x.IsRoot);
 
-            RootNode = new List<UiNode>
+            RootNode = new ObservableCollection<UiNode>(new[]
             {
                 new UiNode(rootNode, "UI Package")
-            };
-
-            Messenger.Default.Register<UiNodeSelectedMessage>(this, HandleNodeSelectedMessage);
+            });
         }
 
         public IEnumerable<UiStructureMenuItem> MenuItems { get { return _menuItems; } }
         public bool HasMenuItems { get { return _menuItems.Any(); } }
 
-        public List<UiNode> RootNode
+        public ObservableCollection<UiNode> RootNode
         {
             get { return _rootNode; }
             set { Set(() => RootNode, ref _rootNode, value); }
@@ -50,14 +49,25 @@ namespace FrbUiEditor.Core.ViewModel
             set { Set(() => IsMenuOpened, ref _menuOpened, value); }
         }
 
-        private void HandleNodeSelectedMessage(UiNodeSelectedMessage message)
+        public UiNode SelectedNode
+        {
+            get { return _selectedNode; }
+            set
+            {
+                Set(() => SelectedNode, ref _selectedNode, value);
+                UpdateMenuItems();
+                Messenger.Default.Send(new UiNodeSelectedMessage { SelectedNode = value });
+            }
+        }
+
+        private void UpdateMenuItems()
         {
             _menuItems.Clear();
 
-            if (message.SelectedNode == null)
+            if (SelectedNode == null)
                 return;
 
-            var node = message.SelectedNode;
+            var node = SelectedNode;
             var childMenuItems = node.XomNode
                                      .Children
                                      .SelectMany(x => x.AvailableNodes)

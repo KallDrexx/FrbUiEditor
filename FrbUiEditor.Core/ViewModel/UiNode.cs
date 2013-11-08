@@ -16,8 +16,6 @@ namespace FrbUiEditor.Core.ViewModel
         private readonly ObservableCollection<UiNode> _children;
         private readonly XomNode _xomNode;
         private string _name;
-        private bool _isSelected;
-        private bool _isExpanded;
         private object _attributeData;
 
         public UiNode(XomNode node, string name)
@@ -39,22 +37,6 @@ namespace FrbUiEditor.Core.ViewModel
         {
             get { return _name; }
             set { Set(() => Name, ref _name, value); }
-        }
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                Set(() => IsSelected, ref _isSelected, value);
-                Messenger.Default.Send(new UiNodeSelectedMessage {SelectedNode = this});
-            }
-        }
-
-        public bool IsExpanded
-        {
-            get { return _isExpanded; }
-            set { Set(() => IsExpanded, ref _isExpanded, value); }
         }
 
         public object AttributeData
