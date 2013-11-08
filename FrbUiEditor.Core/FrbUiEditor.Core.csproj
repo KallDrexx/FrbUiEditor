@@ -96,6 +96,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RadTreeViewBehavior.cs" />
     <Compile Include="ViewModel\NodeDetailsViewModel.cs" />
     <Compile Include="ViewModel\UiStructureMenuItem.cs" />
     <Compile Include="ViewModel\UiNode.cs" />

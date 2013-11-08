@@ -17,12 +17,14 @@ namespace FrbUiEditor.Core.ViewModel
         private readonly XomNode _xomNode;
         private string _name;
         private object _attributeData;
+        private bool _isExpanded;
 
         public UiNode(XomNode node, string name)
         {
             _children = new ObservableCollection<UiNode>();
             _xomNode = node;
             Name = name;
+            IsExpanded = true;
 
             var attributes = _xomNode.Attributes;
             var type = XomAttributeTypeGenerator.GenerateType(attributes);
@@ -43,6 +45,12 @@ namespace FrbUiEditor.Core.ViewModel
         {
             get { return _attributeData; }
             private set { Set(() => AttributeData, ref _attributeData, value); }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set { Set(() => IsExpanded, ref _isExpanded, value); }
         }
 
         public void CreateChild(XomNode xomNode, string name)

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:FrbUiEditor.Core.ViewModel"
              xmlns:converters="clr-namespace:FrbUiEditor.Core.Converters"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:FrbUiEditor.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -16,10 +16,6 @@
         <HierarchicalDataTemplate DataType="{x:Type vm:UiNode}" ItemsSource="{Binding Children}">
             <TextBlock Text="{Binding Name}"/>
         </HierarchicalDataTemplate>
-        
-        <DataTemplate DataType="{x:Type vm:UiStructureMenuItem}">
-            <telerik:RadMenuItem Header="{Binding Text}" Command="{Binding Command}" />
-        </DataTemplate>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -28,9 +24,23 @@
     
     <Grid>
         <telerik:RadTreeView ItemsSource="{Binding RootNode}"
-                             SelectedItem="{Binding SelectedNode, Mode=TwoWay}">           
+                             SelectedItem="{Binding SelectedNode, Mode=TwoWay}"
+                             local:RadTreeViewBehavior.RightClickSelectsNode="True">    
+            <telerik:RadTreeView.ItemContainerStyle>
+                <Style TargetType="telerik:RadTreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                </Style>
+            </telerik:RadTreeView.ItemContainerStyle>
+            
             <telerik:RadContextMenu.ContextMenu>
-                <telerik:RadContextMenu ItemsSource="{Binding MenuItems}" />
+                <telerik:RadContextMenu ItemsSource="{Binding MenuItems}">
+                    <telerik:RadContextMenu.ItemContainerStyle>
+                        <Style TargetType="telerik:RadMenuItem">
+                            <Setter Property="Header" Value="{Binding Text}"/>
+                            <Setter Property="Command" Value="{Binding Command}"/>
+                        </Style>
+                    </telerik:RadContextMenu.ItemContainerStyle>
+                </telerik:RadContextMenu>
 
             </telerik:RadContextMenu.ContextMenu>
         </telerik:RadTreeView>
