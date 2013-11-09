@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls.Data.PropertyGrid;
 
 namespace FrbUiEditor.Core.Controls
 {
@@ -23,6 +24,28 @@ namespace FrbUiEditor.Core.Controls
         public NodeDetailsControl()
         {
             InitializeComponent();
+        }
+
+        private void RadPropertyGrid_AutoGeneratingPropertyDefinition(object sender, AutoGeneratingPropertyDefinitionEventArgs e)
+        {
+            var type = e.PropertyDefinition.SourceProperty.PropertyType;
+
+            var description = new StringBuilder(type.Name);
+            var genericArguments = type.GetGenericArguments();
+            for (int x = 0; x < genericArguments.Length; x++)
+            {
+                if (x == 0)
+                    description.Append("<");
+                else if (x > 0)
+                    description.Append(",");
+
+                description.Append(genericArguments[0]);
+            }
+
+            if (genericArguments.Length > 0)
+                description.Append(">");
+
+            e.PropertyDefinition.Description = description.ToString();
         }
     }
 }
