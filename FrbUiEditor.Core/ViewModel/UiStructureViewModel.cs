@@ -32,10 +32,19 @@ namespace FrbUiEditor.Core.ViewModel
             {
                 new UiNode(rootNode, "UI Package")
             });
+
+            TestCommand = new RelayCommand(() =>
+            {
+                var root = _rootNode.First();
+                var serializer = new XomDataSerializer();
+                var nodeData = root.CreateDataNode();
+                var serializedData = serializer.Serialize(nodeData);
+            });
         }
 
         public IEnumerable<UiStructureMenuItem> MenuItems { get { return _menuItems; } }
         public bool HasMenuItems { get { return _menuItems.Any(); } }
+        public RelayCommand TestCommand { get; private set; }
 
         public ObservableCollection<UiNode> RootNode
         {

@@ -23,9 +23,19 @@
     </UserControl.DataContext>
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button Content="Test" 
+                Command="{Binding TestCommand}"
+                Grid.Row="0" />
+
         <telerik:RadTreeView ItemsSource="{Binding RootNode}"
                              SelectedItem="{Binding SelectedNode, Mode=TwoWay}"
-                             local:RadTreeViewBehavior.RightClickSelectsNode="True">    
+                             local:RadTreeViewBehavior.RightClickSelectsNode="True"
+                             Grid.Row="1">    
             <telerik:RadTreeView.ItemContainerStyle>
                 <Style TargetType="telerik:RadTreeViewItem">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -41,7 +51,6 @@
                         </Style>
                     </telerik:RadContextMenu.ItemContainerStyle>
                 </telerik:RadContextMenu>
-
             </telerik:RadContextMenu.ContextMenu>
         </telerik:RadTreeView>
     </Grid>

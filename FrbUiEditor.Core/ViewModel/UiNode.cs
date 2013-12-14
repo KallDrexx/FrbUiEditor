@@ -58,5 +58,17 @@ namespace FrbUiEditor.Core.ViewModel
             var newNode = new UiNode(xomNode, name);
             _children.Add(newNode);
         }
+
+        public XomNodeData CreateDataNode()
+        {
+            return new XomNodeData
+            {
+                NodeType = _xomNode,
+                AttributeData = _attributeData,
+                ChildNodes = Children.Select(x => new KeyValuePair<string, XomNodeData>(x.Name, x.CreateDataNode()))
+                                     .ToArray()
+
+            };
+        }
     }
 }
