@@ -11,6 +11,8 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Xom.Core;
 using Xom.Core.Models;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace FrbUiEditor.Core.ViewModel
 {
@@ -39,6 +41,9 @@ namespace FrbUiEditor.Core.ViewModel
                 var serializer = new XomDataSerializer();
                 var nodeData = root.CreateDataNode();
                 var serializedData = serializer.Serialize(nodeData);
+                var xmlSerializer = new XmlSerializer(serializedData.GetType());
+                using (var stream = File.OpenWrite(@"c:\temp\test.xml"))
+                    xmlSerializer.Serialize(stream, serializedData);
             });
         }
 
