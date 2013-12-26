@@ -32,15 +32,15 @@ namespace FrbUiEditor.Core.ViewModel
 
             RootNode = new ObservableCollection<UiNode>(new[]
             {
-                new UiNode(rootNode, "UI Package")
+                CreateRootNodeFromFile(@"E:\temp\ui.xml")
             });
 
             TestCommand = new RelayCommand(() =>
             {
                 var root = _rootNode.First();
-                var serializer = new XomDataSerializer();
+                var serializer = new XomDataConverter();
                 var nodeData = root.CreateDataNode();
-                var serializedData = serializer.Serialize(nodeData);
+                var serializedData = serializer.ConvertToXmlObject(nodeData);
                 var xmlSerializer = new XmlSerializer(serializedData.GetType());
                 using (var stream = File.OpenWrite(@"c:\temp\test.xml"))
                     xmlSerializer.Serialize(stream, serializedData);
@@ -103,6 +103,23 @@ namespace FrbUiEditor.Core.ViewModel
                 XomNode = xomNodePair.Value,
                 UiNode = uiNode
             };
+        }
+
+        private UiNode CreateRootNodeFromFile(string filename)
+        {
+            AssetCollection collection;
+
+            using (var stream = File.OpenRead(filename))
+            {
+                var serializer = new XmlSerializer(typeof(AssetCollection));
+                collection = (AssetCollection)serializer.Deserialize(stream);
+            }
+
+            var converter = new XomDataConverter();
+            var nodeData = converter.ConvertToXomNodeData(collection, new XomReader());
+            var node = UiNode.FromXomNodeData(nodeData, "UI Package");
+
+            return node;
         }
     }
 }

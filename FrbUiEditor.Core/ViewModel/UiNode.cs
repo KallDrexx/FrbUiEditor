@@ -70,5 +70,29 @@ namespace FrbUiEditor.Core.ViewModel
 
             };
         }
+
+        public static UiNode FromXomNodeData(XomNodeData nodeData, string name)
+        {
+            if (nodeData == null)
+                throw new ArgumentNullException("nodeData");
+
+            var node = new UiNode(nodeData.NodeType, name);
+            node.AttributeData = nodeData.AttributeData;
+            foreach (var child in nodeData.ChildNodes)
+            {
+                var childNodeName = nodeData.NodeType
+                                            .Children
+                                            .Where(x => x.PropertyName == child.Key)
+                                            .SelectMany(x => x.AvailableNodes)
+                                            .Where(x => x.Value.Type == child.Value.NodeType.Type)
+                                            .Select(x => x.Key)
+                                            .First();
+
+                var childNode = UiNode.FromXomNodeData(child.Value, childNodeName);
+                node._children.Add(childNode);
+            }
+
+            return node;
+        }
     }
 }
