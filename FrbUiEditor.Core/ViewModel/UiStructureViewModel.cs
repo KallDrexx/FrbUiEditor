@@ -68,9 +68,13 @@ namespace FrbUiEditor.Core.ViewModel
             get { return _selectedNode; }
             set
             {
+                var previousNode = _selectedNode;
                 Set(() => SelectedNode, ref _selectedNode, value);
                 UpdateMenuItems();
                 Messenger.Default.Send(new UiNodeSelectedMessage { SelectedNode = value });
+
+                if (previousNode != null)
+                    previousNode.UpdateNodeName();
             }
         }
 

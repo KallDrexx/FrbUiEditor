@@ -15,7 +15,7 @@ namespace FrbUiEditor.Core.ViewModel
     {
         private readonly ObservableCollection<UiNode> _children;
         private readonly XomNode _xomNode;
-        private string _name;
+        private string _displayedName, _baseName;
         private object _attributeData;
         private bool _isExpanded;
 
@@ -23,13 +23,15 @@ namespace FrbUiEditor.Core.ViewModel
         {
             _children = new ObservableCollection<UiNode>();
             _xomNode = node;
-            Name = name;
+            _baseName = name;
             IsExpanded = true;
 
             var attributes = _xomNode.Attributes;
             var type = XomAttributeTypeGenerator.GenerateType(attributes);
             var instance = Activator.CreateInstance(type);
             AttributeData = instance;
+
+            UpdateNodeName();
         }
 
         public IEnumerable<UiNode> Children { get { return _children; } }
@@ -37,8 +39,8 @@ namespace FrbUiEditor.Core.ViewModel
 
         public string Name
         {
-            get { return _name; }
-            set { Set(() => Name, ref _name, value); }
+            get { return _displayedName; }
+            set { Set(() => Name, ref _displayedName, value); }
         }
 
         public object AttributeData
@@ -57,6 +59,30 @@ namespace FrbUiEditor.Core.ViewModel
         {
             var newNode = new UiNode(xomNode, name);
             _children.Add(newNode);
+        }
+
+        public void UpdateNodeName()
+        {
+            string calculatedName = string.Empty;
+
+            // If the node has an attribute named "Name" and its' a string, use that as its name
+            if (_attributeData != null)
+            {
+                var namePropertyValue = _attributeData.GetType()
+                                                     .GetProperties()
+                                                     .Where(x => x.Name == "Name")
+                                                     .Where(x => x.PropertyType == typeof(string))
+                                                     .Select(x => x.GetValue(_attributeData) as string)
+                                                     .FirstOrDefault();
+
+                if (!string.IsNullOrWhiteSpace(namePropertyValue))
+                    calculatedName = namePropertyValue;
+            }
+
+            if (string.IsNullOrWhiteSpace(calculatedName))
+                calculatedName = _baseName;
+
+            Name = calculatedName;
         }
 
         public XomNodeData CreateDataNode()
@@ -78,6 +104,7 @@ namespace FrbUiEditor.Core.ViewModel
 
             var node = new UiNode(nodeData.NodeType, name);
             node.AttributeData = nodeData.AttributeData;
+            node.UpdateNodeName();
             foreach (var child in nodeData.ChildNodes)
             {
                 var childNodeName = nodeData.NodeType

@@ -10,5 +10,6 @@ namespace FrbUiEditor.Core.Messages
     public class UiNodeSelectedMessage
     {
         public UiNode SelectedNode { get; set; }
+        public UiNode PreviouslySelectedNode { get; set; }
     }
 }
